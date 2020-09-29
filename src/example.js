@@ -1,6 +1,11 @@
 console.log(10)
-function f1(){
-   let str = 'abcd'
-   return str
+
+let obj = {
+   a: 1,
+   b: 2
 }
-console.log(f1())
+// let str = "avhjgj"
+// let arr = [...str]
+// console.log(arr)
+let arr = [10, 20, 30]
+console.log({...arr})

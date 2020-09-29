@@ -1,7 +1,24 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 .cont {
   text-align: center;
   font-size: 18px;
   color: cyan;
   background-color: #1f1f1f;
+  height: 100vh;
 }
 
+.btn{
+  padding: 5px;
+  color: aliceblue;
+  background-color: green;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: none;
+  outline: none;
+}
