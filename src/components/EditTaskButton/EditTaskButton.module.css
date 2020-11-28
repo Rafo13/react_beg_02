@@ -1,4 +1,7 @@
-inp{
-   width: 100%;
-   color: tomato;
+.input{
+   width: 100%!important;
+}
+.description{
+   width: 100%!important;
+   margin-top: 20px;
 }

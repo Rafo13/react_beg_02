@@ -1,8 +1,6 @@
 .task {
    margin: 10px auto;
-}
-.select{
-   border: 2px solid blue;
+   color: rgb(46, 48, 43)!important;
 }
 
 .warnButton {
@@ -12,4 +10,7 @@
 
 .dangerButton {
    margin: 0 0 0 10px;
+}
+.dataStyle{
+   font-size: 12px;
 }

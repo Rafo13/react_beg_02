@@ -5,6 +5,8 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from './todo.module.css';
 import Confirm from '../Confirm';
 import EditTaskButton from '../EditTaskButton/EditTaskButton';
+import PropTypes from 'prop-types';
+
 
 
 
@@ -237,6 +239,7 @@ export default class ToDo extends PureComponent {
                         variant="outline-success"
                         onClick={this.toggleNewTaskModal}
                         disabled={!!selectedTasks.size}
+                        className={styles.addButton}
                      >
                         Add Task
                      </Button>
@@ -247,13 +250,16 @@ export default class ToDo extends PureComponent {
                </Row>
 
                <Row className="justify-content-center">
-                  <Col xs={4}>
+                  <Col xs={4}                   
+                     className={styles.removeColButton}          
+                   >
                      <Button
                         variant="outline-success"
                         onClick={this.toggleConfirm}
                         // disabled={selectedTasks.size === 0 ? true : false}  OR
                         // disabled={selectedTasks.size === 0}  OR
                         disabled={!selectedTasks.size}
+                        className={styles.removeButton}
                      >
                         Remove
                      </Button>
@@ -289,4 +295,7 @@ export default class ToDo extends PureComponent {
       );
    }
 }
-
+// AddTask.propTypes= {
+//    onClose: PropTypes.isRequired,
+//    onAdd: PropTypes.isRequired
+// }

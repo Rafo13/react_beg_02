@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import styles from './task.module.css'
-import {Button, Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import { formatDate } from '../../try/utils'
 
 
 export default class Task extends PureComponent {
@@ -14,7 +15,7 @@ export default class Task extends PureComponent {
       }
    }
 
-   handleCheck = () =>{
+   handleCheck = () => {
       this.setState({
          checked: !this.state.checked
       })
@@ -24,33 +25,33 @@ export default class Task extends PureComponent {
 
    render() {
       const task = this.props.data;
-      const {checked} = this.state;
-      const {disabled} = this.props;
+      const { disabled } = this.props;
       return (
          <>
-            <Card className={`${styles.task} ${checked ? styles.select: ''}`} style={{color: 'cyan'}}>
+            <Card className={styles.task}>
                <Card.Body>
                   <input type="checkbox"
-                  onClick={this.handleCheck}
-                  /> 
+                     onClick={this.handleCheck}
+                  />
                   <Card.Title>{task.title}</Card.Title>
-                  <Card.Text>
-                     {task.description}
-                  </Card.Text>
+                  <Card.Text>Description: {task.description}</Card.Text>
+                  <Card.Text className={styles.dataStyle}>Date: {formatDate(task.date)}</Card.Text>
+                  <Card.Text className={styles.dataStyle}>Created: {formatDate(task.created_at)}</Card.Text>
+
                   <Button
-                  variant="warning"
-                  className={styles.warnButton}
-                  disabled={disabled}
-                  onClick={()=>this.props.onEdit(task)}
+                     variant="warning"
+                     className={styles.warnButton}
+                     disabled={disabled}
+                     onClick={() => this.props.onEdit(task)}
                   >
-                  <FontAwesomeIcon icon={faEdit} />
+                     <FontAwesomeIcon icon={faEdit} />
                   </Button>
                   <Button variant="danger"
-                  className={styles.dangerButton}
-                  onClick={() => this.props.onRemove(task._id)}
-                  disabled={disabled}
+                     className={styles.dangerButton}
+                     onClick={() => this.props.onRemove(task._id)}
+                     disabled={disabled}
                   >
-                  <FontAwesomeIcon icon={faTrash} />
+                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
                </Card.Body>
             </Card>

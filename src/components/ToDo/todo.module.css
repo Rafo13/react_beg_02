@@ -1,6 +1,17 @@
-.wrap {
-   padding: 20px;
-   border: 2px solid red;
+.addButton{
+   color: whitesmoke!important;
+   background-color: grey!important;
+   border: none!important;
+   outline: none!important;
+   margin-top: 5px;
 }
 
-
+.removeButton{
+   margin: 20px 0px 0 0px;
+   background-color: rgb(94, 20, 20)!important;
+   color: wheat!important;
+}
+.removeColButton{
+   display: flex;
+   justify-content: center!important;
+}

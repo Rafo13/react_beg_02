@@ -18,7 +18,7 @@ export default class AddTask extends Component {
 
    handleKeyDown = (e) => {
       if (e.key === 'Enter') {
-         this.handleClick()
+         this.handleClick();
       }
    };
 
@@ -40,17 +40,17 @@ export default class AddTask extends Component {
    };
 
    handleClick = () => {
-      const { description, title } = this.state
+      const { description, title, date } = this.state;
       if (!title) {
          return;
       };
 
       const task = {
          title: title,
-         description: description
+         description: description, 
+         date: date.toISOString().slice(0, 10)
       };
-
-      this.props.onAdd(task)
+      this.props.onAdd(task);
    };
 
    handleDate = (date) =>{
@@ -66,7 +66,7 @@ export default class AddTask extends Component {
    // }; 
 
    render() {
-      const { onClose } = this.props
+      const { onClose } = this.props;
       return (
          <>
             <Modal
@@ -98,19 +98,20 @@ export default class AddTask extends Component {
                   </textarea>
 
                <DatePicker
-               selected={new Date()}
+               selected={this.state.date}
                onChange={this.handleDate}
                className={styles.date}
+               minDate={new Date()}
                />
 
                </Modal.Body>
                <Modal.Footer>
+                  <Button variant="primary" onClick={this.handleClick}>
+                     Add
+                  </Button>
                   <Button variant="secondary" onClick={onClose}>
                      Close
-          </Button>
-                  <Button variant="primary" onClick={this.handleClick}>
-                     Save
-          </Button>
+                  </Button>                 
                </Modal.Footer>
             </Modal>
          </>
