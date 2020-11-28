@@ -16,19 +16,19 @@ export default class EditTaskButton extends React.Component {
 
    hanleChange = (e) => {
       this.setState({
-         text: e.target.value
+         title: e.target.value
       })
    }
 
    handleSave = (e) => {
-      const {text} = this.state;
-      if(!text){
+      const {title} = this.state;
+      if(!title){
          return;
       }
       this.props.onSave(this.state)
    }
    render() {
-      const { text } = this.state
+      const { title } = this.state
       const { props } = this
       return (
          <div>
@@ -40,7 +40,7 @@ export default class EditTaskButton extends React.Component {
                <Modal.Body>
                   <input type="text"
                      className={styles.inp}
-                     value={text}
+                     value={title}
                      onChange={this.hanleChange}
                   />
                </Modal.Body>

@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import {FormControl, Button, Modal } from 'react-bootstrap';
 import styles from './addtask.module.css';
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 export default class AddTask extends Component {
    constructor(props) {
       super(props)
       this.state = {
-         inputValue: '',
+         title: '',
+         description: '',
+         date: new Date()
       }
    };
 
@@ -18,27 +22,42 @@ export default class AddTask extends Component {
       }
    };
 
-   handleChange = (e) => {
+   // version 1
+   // handleChange = (event, name) => {
+   //    console.log(name)
+   //    this.setState({
+   //       [name]: event.target.value //որպեսզի name-ը հասկանա, որպես փոփոխական
+   //    });
+   // };
+
+   // version 2
+   handleChange = (event) => {
+      let {name} = event.target;
+
       this.setState({
-         inputValue: e.target.value
+         [name]: event.target.value //որպեսզի name-ը հասկանա, որպես փոփոխական
       });
    };
 
    handleClick = () => {
-      const { inputValue } = this.state
-      if (!inputValue) {
+      const { description, title } = this.state
+      if (!title) {
          return;
       };
 
       const task = {
-         title: inputValue
+         title: title,
+         description: description
       };
 
       this.props.onAdd(task)
-      this.setState({
-         inputValue: ''
-      });
    };
+
+   handleDate = (date) =>{
+      this.setState({
+         date,
+      });
+   }
 
    // Տարբերակ 1
    // static propTypes = {
@@ -47,39 +66,62 @@ export default class AddTask extends Component {
    // }; 
 
    render() {
-      const { inputValue } = this.state;
-      const { disabled } = this.props
+      const { onClose } = this.props
       return (
-         <div>
-            <InputGroup className={styles.input} >
-               <FormControl
+         <>
+            <Modal
+               show={true}
+               onHide={onClose}
+               centered
+            >
+               <Modal.Header closeButton>
+                  <Modal.Title>Add Task</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                  <FormControl
+                     // onChange={this.handleChange}
+                     // onChange={(event)=>this.handleChange(event, 'title')}
+                     name="title"
+                     onChange={this.handleChange}
+                     onKeyDown={this.handleKeyDown}
+                     placeholder="New Text"
+                     className={styles.input}
+                  />
+                  <textarea
+                  rows="4"
+                  className={styles.description}
+                  placeholder = "Discription"
+                  // onChange={(event)=>this.handleChange(event, 'description')}
+                  name="description"
                   onChange={this.handleChange}
-                  onKeyDown={this.handleKeyDown}
-                  placeholder="New Task"
-                  aria-label="New task"
-                  aria-describedby="basic-addon2"
-                  value={inputValue}
-                  disabled={disabled}
+                  >                           
+                  </textarea>
+
+               <DatePicker
+               selected={new Date()}
+               onChange={this.handleDate}
+               className={styles.date}
                />
-               <InputGroup.Append>
-                  <Button
-                     variant="outline-success"
-                     onClick={() => this.handleClick()}
-                     disabled={disabled}
-                  >
-                     Add Task
-                               </Button>
-               </InputGroup.Append>
-            </InputGroup>
-         </div>
+
+               </Modal.Body>
+               <Modal.Footer>
+                  <Button variant="secondary" onClick={onClose}>
+                     Close
+          </Button>
+                  <Button variant="primary" onClick={this.handleClick}>
+                     Save
+          </Button>
+               </Modal.Footer>
+            </Modal>
+         </>
       )
    }
 }
 
 
-  // Տարբերակ 2
-  AddTask.propTypes = {
+// Տարբերակ 2
+AddTask.propTypes = {
    disabled: PropTypes.bool,
    onAdd: PropTypes.func.isRequired
-}; 
+};
 
