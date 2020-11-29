@@ -6,22 +6,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-
 export default class EditTaskButton extends React.Component {
    constructor(props) {
       super(props);
-      const {date} = props.data
+      const { date } = props.data;
       this.state = {
          ...props.data,
          date: date ? new Date(date) : new Date()
-      }
+      };
    };
-
-   // hanleChange = (e) => {
-   //    this.setState({
-   //       title: e.target.value
-   //    })
-   // };
 
    handleSave = (e) => {
       const { title, date } = this.state;
@@ -31,27 +24,26 @@ export default class EditTaskButton extends React.Component {
       const editedTask = {
          ...this.state,
          date: date.toISOString().slice(0, 10)
-      }
+      };
       this.props.onSave(editedTask);
    };
 
-   handleDate = (date) =>{
+   handleDate = (date) => {
       this.setState({
          date,
       });
-   }
+   };
 
    handleChange = (event) => {
-      let {name} = event.target;
-
+      let { name } = event.target;
       this.setState({
-         [name]: event.target.value //որպեսզի name-ը հասկանա, որպես փոփոխական
+         [name]: event.target.value
       });
    };
 
    render() {
       const { onClose } = this.props;
-      const {title, description, date} = this.state;
+      const { title, description, date } = this.state;
       return (
          <>
             <Modal
@@ -75,7 +67,6 @@ export default class EditTaskButton extends React.Component {
                      rows="4"
                      className={styles.description}
                      placeholder="Discription"
-                     // onChange={(event)=>this.handleChange(event, 'description')}
                      name="description"
                      onChange={this.handleChange}
                      value={description}
@@ -96,7 +87,7 @@ export default class EditTaskButton extends React.Component {
                   </Button>
                   <Button variant="secondary" onClick={onClose}>
                      Close
-                  </Button>                 
+                  </Button>
                </Modal.Footer>
             </Modal>
          </>

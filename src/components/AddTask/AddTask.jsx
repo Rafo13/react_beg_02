@@ -13,29 +13,20 @@ export default class AddTask extends Component {
          title: '',
          description: '',
          date: new Date()
-      }
+      };
    };
 
    handleKeyDown = (e) => {
       if (e.key === 'Enter') {
          this.handleClick();
-      }
+      };
    };
 
-   // version 1
-   // handleChange = (event, name) => {
-   //    console.log(name)
-   //    this.setState({
-   //       [name]: event.target.value //որպեսզի name-ը հասկանա, որպես փոփոխական
-   //    });
-   // };
-
-   // version 2
    handleChange = (event) => {
       let {name} = event.target;
 
       this.setState({
-         [name]: event.target.value //որպեսզի name-ը հասկանա, որպես փոփոխական
+         [name]: event.target.value
       });
    };
 
@@ -57,15 +48,9 @@ export default class AddTask extends Component {
       this.setState({
          date,
       });
-   }
+   };
 
-   // Տարբերակ 1
-   // static propTypes = {
-   //    disabled: PropTypes.bool,
-   //    onAdd: PropTypes.func.isRequired
-   // }; 
-
-   render() {
+    render() {
       const { onClose } = this.props;
       return (
          <>
@@ -79,8 +64,6 @@ export default class AddTask extends Component {
                </Modal.Header>
                <Modal.Body>
                   <FormControl
-                     // onChange={this.handleChange}
-                     // onChange={(event)=>this.handleChange(event, 'title')}
                      name="title"
                      onChange={this.handleChange}
                      onKeyDown={this.handleKeyDown}
@@ -91,7 +74,6 @@ export default class AddTask extends Component {
                   rows="4"
                   className={styles.description}
                   placeholder = "Discription"
-                  // onChange={(event)=>this.handleChange(event, 'description')}
                   name="description"
                   onChange={this.handleChange}
                   >                           
@@ -119,8 +101,6 @@ export default class AddTask extends Component {
    }
 }
 
-
-// Տարբերակ 2
 AddTask.propTypes = {
    disabled: PropTypes.bool,
    onAdd: PropTypes.func.isRequired

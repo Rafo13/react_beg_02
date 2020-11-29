@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-
 export default class Confirm extends Component {
    render() {
       return (
