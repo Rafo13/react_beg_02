@@ -4,7 +4,9 @@ import { Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../try/utils'
+import { formatDate } from '../../try/utils';
+import { Link } from 'react-router-dom';
+
 
 
 export default class Task extends PureComponent {
@@ -33,7 +35,9 @@ export default class Task extends PureComponent {
                   <input type="checkbox"
                      onClick={this.handleCheck}
                   />
-                  <Card.Title>{task.title}</Card.Title>
+                  <Card.Title>
+                     <Link to={`/task/${task._id}`}>{task.title}</Link>
+                  </Card.Title>
                   <Card.Text>Description: {task.description}</Card.Text>
                   <Card.Text className={styles.dataStyle}>Date: {formatDate(task.date)}</Card.Text>
                   <Card.Text className={styles.dataStyle}>Created: {formatDate(task.created_at)}</Card.Text>

@@ -1,0 +1,11 @@
+.activePage {
+   color: green;
+}
+
+.activePage:hover {
+   color: green;
+}
+
+.navLink{
+   margin: 0 50px;
+}
