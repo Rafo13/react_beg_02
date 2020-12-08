@@ -19,6 +19,7 @@ export default class NavMenu extends Component {
                      >
                         HomePage
                      </NavLink>
+
                      <NavLink
                         to='/about'
                         activeStyle={{ color: 'green' }}
@@ -27,14 +28,16 @@ export default class NavMenu extends Component {
                      >
                         About
                      </NavLink>
-                     {/* <NavLink
-                        to='/task'
+
+                     <NavLink
+                        to='/456'
                         activeStyle={{ color: 'green' }}
                         exact
                         className={styles.navLink}
                      >
-                        Task
-                     </NavLink> */}
+                        Contact
+                     </NavLink>
+
                   </Nav>
                </Navbar.Collapse>
             </Navbar>
@@ -42,3 +45,4 @@ export default class NavMenu extends Component {
       )
    }
 }
+
