@@ -6,7 +6,6 @@ import SingleTask from './components/pages/SingleTask/SingleTask';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, Switch, Redirect} from 'react-router-dom'
 import NavMenu from './components/NavMenu/NavMenu';
-import RefDemo from './try/RefDemo';
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
       <NavMenu/>
 
       <Switch>
-        <Route path='/demo' component={RefDemo}/>
         <Route exact path='/' component={ToDo} />
         <Route exact path='/task' component={ToDo} />
         <Route exact path='/about' component={About} />
