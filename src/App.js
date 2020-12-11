@@ -24,7 +24,6 @@ function App() {
         <Route exact path='/404' component={Error404} />
         <Redirect to={'/404'}/>
       </Switch>
-      {/* <Hooks /> */}
     </div>
   );
 }
