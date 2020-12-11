@@ -1,4 +1,5 @@
 import React from 'react';
+import {createRef} from 'react'
 import { Modal, Button, FormControl } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import styles from './EditTaskButton.module.css'
@@ -14,7 +15,12 @@ export default class EditTaskButton extends React.Component {
          ...props.data,
          date: date ? new Date(date) : new Date()
       };
+      this.titleRef = createRef(null)
    };
+
+   componentDidMount(){
+      this.titleRef.current.focus()
+   }
 
    handleSave = (e) => {
       const { title, date } = this.state;
@@ -62,6 +68,7 @@ export default class EditTaskButton extends React.Component {
                      onKeyDown={this.handleKeyDown}
                      placeholder="New Text"
                      className={styles.input}
+                     ref={this.titleRef}
                   />
                   <textarea
                      rows="4"

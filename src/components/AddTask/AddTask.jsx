@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import {FormControl, Button, Modal } from 'react-bootstrap';
 import styles from './addtask.module.css';
 import PropTypes from 'prop-types';
@@ -14,7 +14,12 @@ export default class AddTask extends Component {
          description: '',
          date: new Date()
       };
+      this.titleRef = createRef(null)
    };
+
+   componentDidMount(){
+      this.titleRef.current.focus()
+   }
 
    handleKeyDown = (e) => {
       if (e.key === 'Enter') {
@@ -69,6 +74,7 @@ export default class AddTask extends Component {
                      onKeyDown={this.handleKeyDown}
                      placeholder="New Text"
                      className={styles.input}
+                     ref={this.titleRef}
                   />
                   <textarea
                   rows="4"
