@@ -10,7 +10,6 @@ import Hooks from './try/lifeCircle/hooks';
 
 function App() {
   return (
-    
     <div className="App">
       
       <NavMenu/>
