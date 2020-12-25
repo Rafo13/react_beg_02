@@ -5,13 +5,14 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from './todo.module.css';
 import Confirm from '../../Confirm';
 import EditTaskButton from '../../EditTaskButton/EditTaskButton';
+import { connect } from 'react-redux';
+import {getTasks} from '../../../store/actions.js';
 
 
-export default class ToDo extends PureComponent {
+class ToDo extends PureComponent {
    constructor(props) {
       super(props);
       this.state = {
-         tasks: [],
          selectedTasks: new Set(),
          showConfirm: false,
          editTask: null,
@@ -19,26 +20,7 @@ export default class ToDo extends PureComponent {
       }
    };
    componentDidMount() {
-      fetch('http://localhost:3001/task', {
-         method: 'GET',
-         headers: {
-            "Content-Type": "application/json"
-         },
-      })
-         .then((res) => {
-            return res.json();
-         })
-         .then((res) => {
-            if (res.error) {
-               throw res.error;
-            }
-            this.setState({
-               tasks: res
-            });
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err)
-         });
+      this.props.getTasks()
    };
 
    handleCheck = (taskId) => {
@@ -192,7 +174,7 @@ export default class ToDo extends PureComponent {
    render() {
       const { selectedTasks, showConfirm, editTask, openNewTaskModal } = this.state;
 
-      const tasks = this.state.tasks.map((task) => {
+      const tasks = this.props.tasks.map((task) => {
          return (
             <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2} className={styles.taskCol}>
                <Task
@@ -269,3 +251,25 @@ export default class ToDo extends PureComponent {
       );
    }
 }
+
+const mapStateToProps = (state) => {
+   return {
+      tasks: state.tasks
+   };
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//    return{
+//       getTasks: () =>{
+//          dispatch({})
+//       }
+//    };
+// }
+
+
+//sa ashxatum e thunk-i shnorhiv
+const mapDispatchToProps = {
+   getTasks: getTasks
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDo);
