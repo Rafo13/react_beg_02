@@ -17,7 +17,7 @@ function request(url, method = 'GET', body) {
       })
       .then((response) => {
          if (response.error) {
-            throw new Error(response.error);
+            throw response.error;
          }
         return response;
       });

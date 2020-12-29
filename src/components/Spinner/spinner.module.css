@@ -1,10 +1,11 @@
 .wrapper{
+  background-color: rgb(179, 160, 160, .7);
    width: 100vw;
    height: 100vh;
    position: absolute;
+   z-index: 10000;
    top: 0;
    left: 0;
-   background-color: #fff;
    display: flex;
    justify-content: center;
    align-items: center;

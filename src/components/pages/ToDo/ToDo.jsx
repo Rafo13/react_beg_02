@@ -23,6 +23,12 @@ class ToDo extends PureComponent {
       this.props.getTasks()
    };
 
+   componentDidUpdate(prevProps){
+      if(!prevProps.addTaskSuccess && this.props.addTaskSuccess){
+         this.toggleNewTaskModal();
+      }
+   }
+
    handleCheck = (taskId) => {
       const selectedTasks = new Set(this.state.selectedTasks);
       if (selectedTasks.has(taskId)) {
@@ -52,7 +58,7 @@ class ToDo extends PureComponent {
             if (res.error) {
                throw res.error;
             }
-            const tasks1 = [res, ...this.state.tasks];
+            const tasks1 = [...this.state.tasks, res];
             this.setState({
                tasks: tasks1,
                openNewTaskModal: false
@@ -63,29 +69,31 @@ class ToDo extends PureComponent {
          });
    };
 
-   removeTask = (taskId) => {
-      fetch(`http://localhost:3001/task/${taskId}`, {
-         method: 'DELETE',
-         headers: {
-            "Content-Type": "application/json"
-         },
-      })
-         .then((res) => {
-            return res.json();
-         })
-         .then((res) => {
-            if (res.error) {
-               throw res.error;
-            };
-            const newTasks = this.state.tasks.filter((task) => task._id !== taskId);
-            this.setState({
-               tasks: newTasks
-            });
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-         });
-   };
+
+   // removeTask = (taskId) => {
+   //    fetch(`http://localhost:3001/task/${taskId}`, {
+   //       method: 'DELETE',
+   //       headers: {
+   //          "Content-Type": "application/json"
+   //       },
+   //    })
+   //       .then((res) => {
+   //          return res.json();
+   //       })
+   //       .then((res) => {
+   //          if (res.error) {
+   //             throw res.error;
+   //          };
+   //          const newTasks = this.state.tasks.filter((task) => task._id !== taskId);
+   //          this.setState({
+   //             tasks: newTasks
+   //          });
+   //       })
+   //       .catch(err => {
+   //          console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
+   //       });
+   // };
+
 
    removeSelected = () => {
       const body = {
@@ -243,7 +251,7 @@ class ToDo extends PureComponent {
 
             {openNewTaskModal &&
                <AddTask
-                  onAdd={this.handleClick}
+                  // onAdd={this.handleClick}
                   onClose={this.toggleNewTaskModal}
                />
             }
@@ -254,7 +262,8 @@ class ToDo extends PureComponent {
 
 const mapStateToProps = (state) => {
    return {
-      tasks: state.tasks
+      tasks: state.tasks,
+      addTaskSuccess: state.addTaskSuccess
    };
 }
 
