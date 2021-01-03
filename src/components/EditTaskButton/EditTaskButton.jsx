@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 import styles from './EditTaskButton.module.css'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {connect} from 'react-redux';
+import {editTask} from '../../store/actions'
 
 
-export default class EditTaskButton extends React.Component {
+class EditTaskButton extends React.Component {
    constructor(props) {
       super(props);
       const { date } = props.data;
@@ -31,7 +33,7 @@ export default class EditTaskButton extends React.Component {
          ...this.state,
          date: date.toISOString().slice(0, 10)
       };
-      this.props.onSave(editedTask);
+      this.props.editTask(editedTask, this.props.from);
    };
 
    handleDate = (date) => {
@@ -105,6 +107,12 @@ export default class EditTaskButton extends React.Component {
 
 EditTaskButton.propTypes = {
    data: PropTypes.object.isRequired,
-   onSave: PropTypes.func.isRequired,
+   // onSave: PropTypes.func.isRequired,
    onClose: PropTypes.func.isRequired
 }
+
+const mapDispatchToProps = {
+   editTask
+}
+
+export default connect(null, mapDispatchToProps)(EditTaskButton)

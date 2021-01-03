@@ -6,7 +6,8 @@ import styles from './todo.module.css';
 import Confirm from '../../Confirm';
 import EditTaskButton from '../../EditTaskButton/EditTaskButton';
 import { connect } from 'react-redux';
-import {getTasks} from '../../../store/actions.js';
+import { getTasks, removeSelected } from '../../../store/actions.js';
+// import {removeSelected} from '../../../store/actions';
 
 
 class ToDo extends PureComponent {
@@ -19,14 +20,29 @@ class ToDo extends PureComponent {
          openNewTaskModal: false
       }
    };
+
    componentDidMount() {
       this.props.getTasks()
    };
 
-   componentDidUpdate(prevProps){
-      if(!prevProps.addTaskSuccess && this.props.addTaskSuccess){
+   componentDidUpdate(prevProps) {
+      if (!prevProps.addTaskSuccess && this.props.addTaskSuccess) {
          this.toggleNewTaskModal();
       }
+
+      if (!prevProps.removeTaskSuccess && this.props.removeTaskSuccess) {
+         this.setState({
+            selectedTasks: new Set(),
+            showConfirm: false
+         });
+      }
+
+      if (!prevProps.editTaskSuccess && this.props.editTaskSuccess) {
+         this.setState({
+            editTask: null
+         });
+      }
+
    }
 
    handleCheck = (taskId) => {
@@ -69,63 +85,42 @@ class ToDo extends PureComponent {
          });
    };
 
-
-   // removeTask = (taskId) => {
-   //    fetch(`http://localhost:3001/task/${taskId}`, {
-   //       method: 'DELETE',
-   //       headers: {
-   //          "Content-Type": "application/json"
-   //       },
-   //    })
-   //       .then((res) => {
-   //          return res.json();
-   //       })
-   //       .then((res) => {
-   //          if (res.error) {
-   //             throw res.error;
-   //          };
-   //          const newTasks = this.state.tasks.filter((task) => task._id !== taskId);
-   //          this.setState({
-   //             tasks: newTasks
-   //          });
-   //       })
-   //       .catch(err => {
-   //          console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-   //       });
-   // };
+   // removeTask -y grecinq redux-i mijocov
 
 
    removeSelected = () => {
-      const body = {
-         tasks: [...this.state.selectedTasks]
-      }
-      fetch(`http://localhost:3001/task`, {
-         method: 'PATCH',
-         headers: {
-            "Content-Type": "application/json"
-         },
-         body: JSON.stringify(body)
-      })
-         .then((res) => {
-            return res.json();
-         })
-         .then((res) => {
-            let tasks = [...this.state.tasks];
-            this.state.selectedTasks.forEach((id) => {
-               tasks = tasks.filter((task) => task._id !== id);
-            });
-            this.setState({
-               tasks,
-               selectedTasks: new Set(),
-               showConfirm: false
-            });
-            if (res.error) {
-               throw res.error;
-            };
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-         });
+      const taskIds = [...this.state.selectedTasks]
+      this.props.removeSelected(taskIds)
+      // const body = {
+      //    tasks: [...this.state.selectedTasks]
+      // }
+      // fetch(`http://localhost:3001/task`, {
+      //    method: 'PATCH',
+      //    headers: {
+      //       "Content-Type": "application/json"
+      //    },
+      //    body: JSON.stringify(body)
+      // })
+      //    .then((res) => {
+      //       return res.json();
+      //    })
+      //    .then((res) => {
+      //       let tasks = [...this.state.tasks];
+      //       this.state.selectedTasks.forEach((id) => {
+      //          tasks = tasks.filter((task) => task._id !== id);
+      //       });
+      //       this.setState({
+      //          tasks,
+      //          selectedTasks: new Set(),
+      //          showConfirm: false
+      //       });
+      //       if (res.error) {
+      //          throw res.error;
+      //       };
+      //    })
+      //    .catch(err => {
+      //       console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
+      //    });
    }
 
    toggleConfirm = () => {
@@ -140,38 +135,41 @@ class ToDo extends PureComponent {
       });
    };
 
-   saveTask = (editedTask) => {
-      fetch(`http://localhost:3001/task/${editedTask._id}`, {
-         method: 'PUT',
-         headers: {
-            "Content-Type": "application/json"
-         },
-         body: JSON.stringify(editedTask)
-      })
-         .then((res) => {
-            return res.json()
-         })
-         .then((res1) => {
-            if (res1.error) {
-               throw res1.error;
-            };
-            const tasks = [...this.state.tasks];
-            const foundTaskIndex = tasks.findIndex((task) => {
-               if (task._id === editedTask._id) {
-                  return true;
-               };
-               return false;
-            });
-            tasks[foundTaskIndex] = res1;
-            this.setState({
-               tasks: tasks,
-               editTask: null
-            });
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-         });
-   };
+
+   // saveTask = (editedTask) => {
+   //    fetch(`http://localhost:3001/task/${editedTask._id}`, {
+   //       method: 'PUT',
+   //       headers: {
+   //          "Content-Type": "application/json"
+   //       },
+   //       body: JSON.stringify(editedTask)
+   //    })
+   //       .then((res) => {
+   //          return res.json()
+   //       })
+   //       .then((res1) => {
+   //          if (res1.error) {
+   //             throw res1.error;
+   //          };
+   //          const tasks = [...this.state.tasks];
+   //          const foundTaskIndex = tasks.findIndex((task) => {
+   //             if (task._id === editedTask._id) {
+   //                return true;
+   //             };
+   //             return false;
+   //          });
+   //          tasks[foundTaskIndex] = res1;
+   //          this.setState({
+   //             tasks: tasks,
+   //             editTask: null
+   //          });
+   //       })
+   //       .catch(err => {
+   //          console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
+   //       });
+   // };
+
+
 
    toggleNewTaskModal = () => {
       this.setState({
@@ -244,7 +242,8 @@ class ToDo extends PureComponent {
                !!editTask &&
                <EditTaskButton
                   data={editTask}
-                  onSave={this.saveTask}
+                  // onSave={this.saveTask}
+                  from='tasks'
                   onClose={() => this.toggleEdit(null)}
                />
             }
@@ -263,7 +262,9 @@ class ToDo extends PureComponent {
 const mapStateToProps = (state) => {
    return {
       tasks: state.tasks,
-      addTaskSuccess: state.addTaskSuccess
+      addTaskSuccess: state.addTaskSuccess,
+      removeTaskSuccess: state.removeTaskSuccess,
+      editTaskSuccess: state.editTaskSuccess
    };
 }
 
@@ -278,7 +279,8 @@ const mapStateToProps = (state) => {
 
 //sa ashxatum e thunk-i shnorhiv
 const mapDispatchToProps = {
-   getTasks: getTasks
+   getTasks: getTasks,
+   removeSelected
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDo);

@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
-import Spinner from '../../Spinner/Spinner';
+// import Spinner from '../../Spinner/Spinner';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import EditTaskButton from '../../EditTaskButton/EditTaskButton';
+import { connect } from 'react-redux';
+import { getSingleTask } from '../../../store/actions'
 
 
-export default class SingleTask extends PureComponent {
+class SingleTask extends PureComponent {
    constructor(props) {
       super(props)
       this.state = {
@@ -15,28 +17,37 @@ export default class SingleTask extends PureComponent {
       }
    }
    componentDidMount() {
-      const taskId = this.props.match.params.id
+      const taskId = this.props.match.params.id;
+      this.props.getSingleTask(taskId);
 
-      fetch(`http://localhost:3001/task/${taskId}`, {
-         method: 'GET',
-         headers: {
-            "Content-Type": "application/json"
-         },
-      })
-         .then((res) => {
-            return res.json();
-         })
-         .then((res) => {
-            if (res.error) {
-               throw res.error;
-            }
-            this.setState({
-               task: res
-            });
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err)
+      // fetch(`http://localhost:3001/task/${taskId}`, {
+      //    method: 'GET',
+      //    headers: {
+      //       "Content-Type": "application/json"
+      //    },
+      // })
+      //    .then((res) => {
+      //       return res.json();
+      //    })
+      //    .then((res) => {
+      //       if (res.error) {
+      //          throw res.error;
+      //       }
+      //       this.setState({
+      //          task: res
+      //       });
+      //    })
+      //    .catch(err => {
+      //       console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err)
+      //    });
+   }
+
+   componentDidUpdate(prevProps){
+      if (!prevProps.editTaskSuccess && this.props.editTaskSuccess) {
+         this.setState({
+            openEditModal: false
          });
+      }
    }
 
    onRemove = () => {
@@ -67,33 +78,36 @@ export default class SingleTask extends PureComponent {
       });
    };
 
-   saveTask = (editedTask) => {
-      fetch(`http://localhost:3001/task/${editedTask._id}`, {
-         method: 'PUT',
-         headers: {
-            "Content-Type": "application/json"
-         },
-         body: JSON.stringify(editedTask)
-      })
-         .then((res) => {
-            return res.json()
-         })
-         .then((res1) => {
-            if (res1.error) {
-               throw res1.error;
-            };
-            this.setState({
-               task: res1,
-               openEditModal: false
-            });
-         })
-         .catch(err => {
-            console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-         });
-   };
+   // saveTask = (editedTask) => {
+   //    fetch(`http://localhost:3001/task/${editedTask._id}`, {
+   //       method: 'PUT',
+   //       headers: {
+   //          "Content-Type": "application/json"
+   //       },
+   //       body: JSON.stringify(editedTask)
+   //    })
+   //       .then((res) => {
+   //          return res.json()
+   //       })
+   //       .then((res1) => {
+   //          if (res1.error) {
+   //             throw res1.error;
+   //          };
+   //          this.setState({
+   //             task: res1,
+   //             openEditModal: false
+   //          });
+   //       })
+   //       .catch(err => {
+   //          console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
+   //       });
+   // };
+
+   
 
    render() {
-      let { task, openEditModal } = this.state;
+      let { openEditModal } = this.state;
+      const { task } = this.props;
 
       return (
          <>
@@ -116,13 +130,14 @@ export default class SingleTask extends PureComponent {
                      <FontAwesomeIcon icon={faEdit} />
                   </Button>
                </div> :
-               <Spinner />
+               <h3>Not Task found</h3>
             }
 
             {
                openEditModal &&
                <EditTaskButton
                   data={task}
+                  from='single'
                   onSave={this.saveTask}
                   onClose={this.toggleEdit}
                />
@@ -131,3 +146,17 @@ export default class SingleTask extends PureComponent {
       )
    }
 }
+
+const mapStateToProps = (state) => {
+   return {
+      task: state.task,
+      editTaskSuccess: state.editTaskSuccess
+
+   }
+}
+
+const mapDispatchToProps = {
+   getSingleTask
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleTask)
