@@ -14,7 +14,6 @@ import Spinner from './components/Spinner/Spinner'
 // import Hooks from './try/lifeCircle/hooks';
 
 function App(props) {
-// console.log(props.error)
 const {errorMessage, successMessage, loading} = props;
   if(errorMessage){
     toast.error(errorMessage)

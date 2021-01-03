@@ -107,7 +107,6 @@ class EditTaskButton extends React.Component {
 
 EditTaskButton.propTypes = {
    data: PropTypes.object.isRequired,
-   // onSave: PropTypes.func.isRequired,
    onClose: PropTypes.func.isRequired
 }
 

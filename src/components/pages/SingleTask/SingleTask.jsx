@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-// import Spinner from '../../Spinner/Spinner';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -19,27 +18,6 @@ class SingleTask extends PureComponent {
    componentDidMount() {
       const taskId = this.props.match.params.id;
       this.props.getSingleTask(taskId);
-
-      // fetch(`http://localhost:3001/task/${taskId}`, {
-      //    method: 'GET',
-      //    headers: {
-      //       "Content-Type": "application/json"
-      //    },
-      // })
-      //    .then((res) => {
-      //       return res.json();
-      //    })
-      //    .then((res) => {
-      //       if (res.error) {
-      //          throw res.error;
-      //       }
-      //       this.setState({
-      //          task: res
-      //       });
-      //    })
-      //    .catch(err => {
-      //       console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err)
-      //    });
    }
 
    componentDidUpdate(prevProps){
@@ -78,33 +56,7 @@ class SingleTask extends PureComponent {
       });
    };
 
-   // saveTask = (editedTask) => {
-   //    fetch(`http://localhost:3001/task/${editedTask._id}`, {
-   //       method: 'PUT',
-   //       headers: {
-   //          "Content-Type": "application/json"
-   //       },
-   //       body: JSON.stringify(editedTask)
-   //    })
-   //       .then((res) => {
-   //          return res.json()
-   //       })
-   //       .then((res1) => {
-   //          if (res1.error) {
-   //             throw res1.error;
-   //          };
-   //          this.setState({
-   //             task: res1,
-   //             openEditModal: false
-   //          });
-   //       })
-   //       .catch(err => {
-   //          console.log("🚀 ~ file: ToDo.jsx ~ line 57 ~ ToDo ~ err", err);
-   //       });
-   // };
-
-   
-
+  
    render() {
       let { openEditModal } = this.state;
       const { task } = this.props;

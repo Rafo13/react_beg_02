@@ -111,7 +111,6 @@ class AddTask extends Component {
 
 AddTask.propTypes = {
    disabled: PropTypes.bool,
-   // onAdd: PropTypes.func.isRequired
 };
 
 const mapDispatchToprops = {
