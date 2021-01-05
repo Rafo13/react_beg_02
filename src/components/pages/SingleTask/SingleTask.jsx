@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import EditTaskButton from '../../EditTaskButton/EditTaskButton';
 import { connect } from 'react-redux';
-import { getSingleTask } from '../../../store/actions'
+import { getSingleTask, removeTask } from '../../../store/actions'
 
 
 class SingleTask extends PureComponent {
@@ -26,6 +26,9 @@ class SingleTask extends PureComponent {
             openEditModal: false
          });
       }
+      // if (!prevProps.removeTask1Success && this.props.removeTask1Success) {
+      //    this.props.history.push('/')
+      // }
    }
 
    onRemove = () => {
@@ -60,7 +63,7 @@ class SingleTask extends PureComponent {
    render() {
       let { openEditModal } = this.state;
       const { task } = this.props;
-
+      const historyPush = this.props.history.push;
       return (
          <>
             {!!task ?
@@ -70,7 +73,7 @@ class SingleTask extends PureComponent {
                   <p>Date: {task.date.slice(0, 10)}</p>
                   <p>Created at: {task.created_at.slice(0, 10)}</p>
                   <Button variant="danger"
-                     onClick={this.onRemove}
+                     onClick={()=>this.props.removeTask(task._id, 'single', historyPush)}
                   >
                      <FontAwesomeIcon icon={faTrash} />
                   </Button>
@@ -102,13 +105,14 @@ class SingleTask extends PureComponent {
 const mapStateToProps = (state) => {
    return {
       task: state.task,
-      editTaskSuccess: state.editTaskSuccess
-
+      editTaskSuccess: state.editTaskSuccess,
+      // removeTask1Success: state.removeTask1Success
    }
 }
 
 const mapDispatchToProps = {
-   getSingleTask
+   getSingleTask,
+   removeTask
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask)

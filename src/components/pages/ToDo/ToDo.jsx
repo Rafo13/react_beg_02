@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import Task from '../../Task/Task';
 import AddTask from '../../AddTask/AddTask';
+import Search from '../../Search/Search'
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import styles from './todo.module.css';
 import Confirm from '../../Confirm';
 import EditTaskButton from '../../EditTaskButton/EditTaskButton';
 import { connect } from 'react-redux';
 import { getTasks, removeSelected } from '../../../store/actions.js';
+
 
 
 class ToDo extends PureComponent {
@@ -115,7 +117,7 @@ class ToDo extends PureComponent {
       const { selectedTasks, showConfirm, editTask, openNewTaskModal } = this.state;
 
       const tasks = this.props.tasks.map((task) => {
-         return (
+         return (            
             <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2} className={styles.taskCol}>
                <Task
                   data={task}
@@ -131,6 +133,7 @@ class ToDo extends PureComponent {
       return (
          <div className={styles.wrap}>
             <Container>
+               <Search />
                <Row className="justify-content-center text-center">
                   <Col md={6} xs={12} sm={10} lg={6}>
                      <Button
