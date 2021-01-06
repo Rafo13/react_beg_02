@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 export default class AddTask extends Component {
    constructor(props) {
       super(props)
