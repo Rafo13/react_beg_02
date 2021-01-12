@@ -4,6 +4,9 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {reducer} from './reducer';
 
-
-const  middleWare = applyMiddleware(logger, thunk);
+let middleWareArray = [thunk];
+if(process.env.NODE_ENV === 'development'){
+   middleWareArray.push(logger);
+}
+const  middleWare = applyMiddleware(...middleWareArray);
 export const store = createStore(reducer, composeWithDevTools(middleWare));

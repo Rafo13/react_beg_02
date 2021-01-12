@@ -121,7 +121,7 @@ class ToDo extends PureComponent {
             <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2} className={styles.taskCol}>
                <Task
                   data={task}
-                  onRemove={this.removeTask}
+                  // onRemove={this.removeTask}
                   onCheck={this.handleCheck}
                   disabled={!!selectedTasks.size}
                   onEdit={this.toggleEdit}

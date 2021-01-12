@@ -87,8 +87,7 @@ const reducer = (state = defaultState, action) => {
       }
     }
 
-    case actionTypes.EDIT_TASK_SUCCESS: {
-     
+    case actionTypes.EDIT_TASK_SUCCESS: {     
       if (action.from === 'single') {
         
         return {
@@ -119,6 +118,47 @@ const reducer = (state = defaultState, action) => {
         }
       }
     }
+
+
+    case actionTypes.CHANGE_TASK_STATUS_STATUS: {   
+      let message;
+      if(action.task.status === 'done'){
+        message = 'task completed...'
+      }
+      else{
+        message = 'task is active!!!'
+      }
+      if (action.from === 'single') {
+        
+        return {
+          ...state,
+          task: action.task,
+          loading: false,
+          successMessage: message,
+          editTaskSuccess: true
+
+        }
+      } else {
+        const tasks = [...state.tasks];
+        const foundTaskIndex = tasks.findIndex((task) => {
+          if (task._id === action.task._id) {
+            return true;
+          };
+          return false;
+        });
+        tasks[foundTaskIndex] = action.task;
+
+        return {
+          ...state,
+          tasks: tasks,
+          loading: false,
+          successMessage: message,
+          editTaskSuccess: true
+
+        }
+      }
+    }
+
 
     case actionTypes.GET_SINGLE_TASK_SUCCESS: {
 
